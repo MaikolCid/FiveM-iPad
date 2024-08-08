@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const screen = document.getElementById("screen");
     const navBar = document.getElementById("nav-bar");
     const dock = document.querySelector(".dock");
+    const currentTrackImg = document.getElementById('current-track-img');
+    const currentTrackTitle = document.getElementById('current-track-title');
+    const currentTrackArtist = document.getElementById('current-track-artist');
+    const musicAppIcon = document.getElementById('music-app-icon');
+    const currentTrackInfo = document.querySelector('.current-track-info');
+    let currentAudio = null;
 
     function loadAdminApp() {
         fetch('/fivem_tablet/funciones/admin.html')
@@ -27,15 +33,13 @@ document.addEventListener("DOMContentLoaded", function() {
         dock.style.display = "none";
     }
 
-    // Función para cargar el PDF y renderizarlo usando PDF.js
     function loadPDF(url) {
         const pdfContainer = document.createElement('div');
         pdfContainer.classList.add('pdf-container');
 
-        screen.innerHTML = ''; // Limpiar la pantalla actual
-        screen.appendChild(pdfContainer); // Añadir el contenedor del PDF
+        screen.innerHTML = ''; 
+        screen.appendChild(pdfContainer);
 
-        // Usar PDF.js para renderizar el PDF
         const loadingTask = pdfjsLib.getDocument(url);
         loadingTask.promise.then(pdf => {
             console.log('PDF loaded');
@@ -47,13 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     const scale = 1.5;
                     const viewport = page.getViewport({ scale: scale });
 
-                    // Prepare canvas using PDF page dimensions
                     const canvas = document.createElement('canvas');
                     const context = canvas.getContext('2d');
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
 
-                    // Render PDF page into canvas context
                     const renderContext = {
                         canvasContext: context,
                         viewport: viewport
@@ -62,8 +64,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     renderTask.promise.then(() => {
                         console.log('Page rendered');
                     });
+                    const pageWrapper = document.createElement('div');
+                    pageWrapper.classList.add('pdf-page'); 
 
-                    pdfContainer.appendChild(canvas);
+                    pageWrapper.appendChild(canvas); 
+                    pdfContainer.appendChild(pageWrapper); 
                 });
             }
         }, function (reason) {
@@ -108,4 +113,47 @@ document.addEventListener("DOMContentLoaded", function() {
     navBar.addEventListener("click", function() {
         location.reload();
     });
+
+    const tracks = document.querySelectorAll('.track');
+
+    tracks.forEach(track => {
+        track.addEventListener('click', function() {
+            const audioSrc = this.getAttribute('data-audio');
+            const trackImg = this.getAttribute('data-img');
+            const trackTitle = this.getAttribute('data-title');
+            const trackArtist = this.getAttribute('data-artist');
+
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            currentAudio = new Audio(audioSrc);
+            currentAudio.play();
+
+            currentTrackImg.src = trackImg;
+            currentTrackImg.classList.remove('hidden');
+            currentTrackTitle.textContent = trackTitle;
+            currentTrackArtist.textContent = trackArtist;
+            musicAppIcon.classList.add('hidden');
+        });
+    });
+
+    function togglePlayPause() {
+        if (currentAudio) {
+            if (currentAudio.paused) {
+                currentAudio.play();
+            } else {
+                currentAudio.pause();
+            }
+        }
+    }
+
+    currentTrackImg.addEventListener('click', togglePlayPause);
+    currentTrackInfo.addEventListener('click', togglePlayPause);
+
+    // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
+    if (!currentAudio || currentAudio.paused) {
+        musicAppIcon.classList.remove('hidden');
+    }
 });

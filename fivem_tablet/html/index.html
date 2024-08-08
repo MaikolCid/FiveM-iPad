@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/rules.css">
+    <link rel="stylesheet" href="css/widget-music.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
-    
 <body>
     <div class="tablet">
         <div class="screen-container">
@@ -18,6 +18,31 @@
                     <div id="datetime">
                         <span id="time"></span>
                         <span id="date"></span>
+                    </div>
+
+                    <!-- Music Widget con reproducción integrada -->
+                    <div class="music-widget">
+                        <div class="current-track">
+                            <img id="music-app-icon" src="/fivem_tablet/html/widget-musica/icon/apple-music-logo.png" alt="Apple Music Icon">
+                            <div class="current-track-info">
+                                <img id="current-track-img" class="hidden" src="" alt="Current Track">
+                                <div>
+                                    <span id="current-track-title">Música</span>
+                                    <span id="current-track-artist"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="track-list">
+                            <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/alocate-remake.mp3" data-img="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" data-title="Alocate Remake" data-artist="Mora">
+                                <img src="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" alt="Alocate Remake - Mora">
+                                <span>Alocate Remake</span>
+                            </div>
+                            <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/clima-deiv.mp3" data-img="/fivem_tablet/html/widget-musica/img/clima.jpeg" data-title="Clima" data-artist="Deiv">
+                                <img src="/fivem_tablet/html/widget-musica/img/clima.jpeg" alt="Clima - Deiv">
+                                <span>Clima</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="right-column">

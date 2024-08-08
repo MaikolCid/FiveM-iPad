@@ -1,0 +1,99 @@
+.music-widget {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 270px;
+    max-width: 300px;
+    margin-top: 20px;
+}
+
+.current-track {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#music-app-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.current-track-info {
+    display: flex;
+    align-items: center;
+}
+
+#current-track-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: #ddd;
+}
+
+.current-track-info div {
+    display: flex;
+    flex-direction: column;
+}
+
+#current-track-title {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+#current-track-artist {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* Lista de LAS CANCIONES */
+.track-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.track img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 5px;
+    background-color: #ddd;
+}
+
+.track span {
+    text-align: center;
+    font-size: 0.85em;
+    color: #000;
+}
+
+.track:hover {
+    transform: scale(1.05);
+}
+
+.track:hover img {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+    display: none;
+}
+
+
+.hidden {
+    display: none;
+}
