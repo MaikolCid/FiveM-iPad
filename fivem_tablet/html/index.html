@@ -6,7 +6,10 @@
     <title>FiveM Tablet</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/rules.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
+    
 <body>
     <div class="tablet">
         <div class="screen-container">
@@ -18,19 +21,27 @@
                     </div>
                 </div>
                 <div class="right-column">
-                    <div class="app" id="app1">
-                        <img src="images/app-icon1.png" alt="App Icon">
-                        <span>App 1</span>
+                    <div class="app" id="appadm">
+                        <img src="images/apps-imgs/app-admin.png" alt="App Icon">
+                        <span>Administración</span>
                     </div>
-                    <div class="app" id="app2">
-                        <img src="images/app-icon1.png" alt="App Icon">
-                        <span>App 2</span>
+                    <div class="app" id="apprule">
+                        <img src="images/apps-imgs/app-rule.png" alt="App Icon">
+                        <span>Normativas</span>
                     </div>
-                    <!-- Add more apps as needed -->
                 </div>
             </div>
         </div>
         <div class="nav-bar" id="nav-bar"></div>
+        <!-- Dock section -->
+        <div class="dock">
+            <div class="dock-icon" id="dock-appadm">
+                <img src="images/apps-imgs/app-admin.png" alt="Administración">
+            </div>
+            <div class="dock-icon" id="dock-apprule">
+                <img src="images/apps-imgs/app-rule.png" alt="Normativas">
+            </div>
+        </div>
     </div>
     <script src="/fivem_tablet/html/js/script.js"></script>
 </body>
