@@ -1,66 +1,74 @@
-.calc-screen {
+body, html {
+    margin: 0;
+    height: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
-    height: 100%;
-    width: 100%;
-    padding: 20px;
-    background: none;
+    background-color: #f0f0f5;
 }
 
-.calc-container {
-    width: 100%;
-    max-width: 600px;
-    background: #333;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+.calculator {
+    width: 400px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.calc-display {
-    background: #000;
-    color: white;
+.display {
+    flex: 1;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px;
     font-size: 2.5em;
-    text-align: right;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-.calc-buttons {
+.buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 1px;
+    background-color: #dcdcdc;
 }
 
-.calc-button {
-    background: #444;
+.button {
+    background-color: #fff;
     border: none;
-    border-radius: 15px;
-    color: white;
+    outline: none;
     font-size: 1.5em;
-    padding: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    transition: background-color 0.2s;
 }
 
-.calc-button:hover {
-    background: #555;
-    transform: scale(1.05);
+.button:active {
+    background-color: #e0e0e0;
 }
 
-.calc-button.operator {
-    background: #ff9500;
+.operator {
+    background-color: #ff9500;
+    color: #fff;
 }
 
-.calc-button.operator:hover {
-    background: #e68a00;
+.operator:active {
+    background-color: #e08b00;
+}
+
+.zero {
+    grid-column: span 2;
 }
 
 .screen.calc-mode {
-    background-color: #000000;
-    background-image: none; 
+    background-color: #fff; /* Fondo blanco para cubrir toda el área */
+    background-image: none; /* Eliminar cualquier imagen de fondo */
 }

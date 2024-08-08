@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     const appadm = document.getElementById("appadm");
     const apprule = document.getElementById("apprule");
+    const appcalc = document.getElementById("appcalc");
     const dockAppadm = document.getElementById("dock-appadm");
     const dockApprule = document.getElementById("dock-apprule");
+    const dockAppcalc = document.getElementById("dock-appcalc");
     const screen = document.getElementById("screen");
     const navBar = document.getElementById("nav-bar");
     const dock = document.querySelector(".dock");
@@ -14,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentAudio = null;
 
     function loadAdminApp() {
-        fetch('/fivem_tablet/funciones/admin.html')
+        fetch('/fivem_tablet/Aplicaciones/admin.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -23,6 +25,37 @@ document.addEventListener("DOMContentLoaded", function() {
                 dock.style.display = "none";
             })
             .catch(error => console.log('Error loading admin.html:', error));
+    }
+
+    function loadCalcApp() {
+        fetch('/fivem_tablet/Aplicaciones/calculator.html')
+            .then(response => response.text())
+            .then(data => {
+                screen.innerHTML = data;
+                screen.classList.remove('home-screen');
+                screen.classList.add('calc-mode');
+                dock.style.display = "none";
+
+                // Eliminar el script de la calculadora si ya existe
+                const existingScript = document.getElementById('calculator-script');
+                if (existingScript) {
+                    document.body.removeChild(existingScript);
+                }
+
+                // Crear y cargar el script de la calculadora
+                const calculatorScript = document.createElement('script');
+                calculatorScript.src = '/fivem_tablet/html/js/calculator.js';
+                calculatorScript.id = 'calculator-script';
+                document.body.appendChild(calculatorScript);
+                
+                // Esperar a que el script de la calculadora se cargue
+                calculatorScript.onload = function() {
+                    if (typeof initializeCalculator === 'function') {
+                        initializeCalculator();
+                    }
+                };
+            })
+            .catch(error => console.log('Error loading calculator.html:', error));
     }
 
     function loadRuleApp() {
@@ -83,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (apprule) {
         apprule.addEventListener("click", loadRuleApp);
     }
+    if (appcalc) {
+        appcalc.addEventListener("click", loadCalcApp);
+    }
 
     if (dockAppadm) {
         dockAppadm.addEventListener("click", loadAdminApp);
@@ -90,6 +126,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (dockApprule) {
         dockApprule.addEventListener("click", loadRuleApp);
+    }
+
+    if (dockAppcalc) {
+        dockAppcalc.addEventListener("click", loadCalcApp);
     }
 
     function updateDateTime() {
@@ -119,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const volumeDisplay = document.getElementById('volume-display');
     const volumeLevel = document.getElementById('volume-level');
     let currentVolume = 50; // Initial volume level
+    
 
     volumeDown.addEventListener('click', function() {
         if (currentVolume > 0) {
@@ -149,11 +190,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showVolumeDisplay() {
         volumeDisplay.classList.add('show');
-        clearTimeout(volumeDisplay.timeout);
-        volumeDisplay.timeout = setTimeout(() => {
-            volumeDisplay.classList.remove('show');
-        }, 4000); // Mantener visible durante 4 segundos
+        volumeDisplay.classList.remove('fade-out'); // Ensure fade-out is removed
+        clearTimeout(volumeTimeout);
     }
+
+    function hideVolumeDisplay() {
+        clearTimeout(volumeTimeout);
+        volumeTimeout = setTimeout(() => {
+            volumeDisplay.classList.add('fade-out');
+            volumeTimeout = setTimeout(() => {
+                volumeDisplay.classList.remove('show');
+                volumeDisplay.classList.remove('fade-out');
+            }, 500); // Duration of fade-out animation in CSS
+        }, 1500); // Hide after 1.5 seconds
+    }
+    
 
     // Ensure that when a new track is played, the volume is set according to the currentVolume
     const tracks = document.querySelectorAll('.track');
