@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/rules.css">
     <link rel="stylesheet" href="css/widget-music.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </head>
 <body>
@@ -68,8 +69,15 @@
             </div>
         </div>
         <div class="volume-control">
-            <button id="volume-up"></button>
-            <button id="volume-down"></button>
+            <button id="volume-up" class="volume-button"><i class="fas fa-volume-up"></i></button>
+            <button id="volume-down" class="volume-button"><i class="fas fa-volume-down"></i></button>
+        </div>
+        <!-- Display de Volumen -->
+        <div class="volume-display" id="volume-display">
+            <span>Volumen</span>
+            <div class="volume-bar">
+                <div class="volume-level" id="volume-level"></div>
+            </div>
         </div>
     </div>
     <script src="/fivem_tablet/html/js/script.js"></script>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&family=Quicksand:wght@300..700&display=swap');
 
 body {
     margin: 0;
@@ -184,8 +184,8 @@ body {
 
 .volume-control {
     position: absolute;
-    left: 9.5%;
-    transform: translateX(-50%);
+    top: -10px;
+    left: 50px; /* Mover a la izquierda */
     display: flex;
     align-items: center;
     border-radius: 20px;
@@ -194,11 +194,80 @@ body {
 
 .volume-control button {
     background-color: transparent;
+
     border: none;
     padding: 10px;
     font-size: 18px;
     cursor: pointer;
-    border-radius:5px;
+    border-radius: 5px;
     margin: 0 13px;
     z-index: 5;
+    color: white; 
+    opacity: 0;
+}
+
+.volume-display {
+    position: absolute;
+    top: 300px; 
+    width: 40px;
+    right: 50px; 
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: none; /* Ocultar por defecto */
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.volume-display.show {
+    display: flex;
+    animation: fadeIn 0.5s ease-out, fadeOut 0.5s ease-in 3.5s forwards; /* Mostrar durante 3.5 segundos */
+}
+
+.volume-display span {
+    font-size: 11px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.volume-bar {
+    width: 100%;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.volume-level {
+    width: 100%;
+    background-color: #ececec;
+    position: absolute;
+    bottom: 0; /* Para que crezca de abajo hacia arriba */
+    height: 50%; /* Nivel de volumen inicial */
+    transition: height 0.3s;
 }

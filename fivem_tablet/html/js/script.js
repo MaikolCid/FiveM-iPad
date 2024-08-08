@@ -116,12 +116,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const volumeDown = document.getElementById('volume-down');
     const volumeUp = document.getElementById('volume-up');
+    const volumeDisplay = document.getElementById('volume-display');
+    const volumeLevel = document.getElementById('volume-level');
     let currentVolume = 50; // Initial volume level
 
     volumeDown.addEventListener('click', function() {
         if (currentVolume > 0) {
             currentVolume -= 10;
             setVolume(currentVolume);
+            showVolumeDisplay();
+        } else {
+            showVolumeDisplay(); // Mostrar el display incluso si no cambia el volumen
         }
     });
 
@@ -129,6 +134,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (currentVolume < 100) {
             currentVolume += 10;
             setVolume(currentVolume);
+            showVolumeDisplay();
+        } else {
+            showVolumeDisplay(); // Mostrar el display incluso si no cambia el volumen
         }
     });
 
@@ -136,6 +144,15 @@ document.addEventListener("DOMContentLoaded", function() {
         if (currentAudio) {
             currentAudio.volume = value / 100;
         }
+        volumeLevel.style.height = value + '%';
+    }
+
+    function showVolumeDisplay() {
+        volumeDisplay.classList.add('show');
+        clearTimeout(volumeDisplay.timeout);
+        volumeDisplay.timeout = setTimeout(() => {
+            volumeDisplay.classList.remove('show');
+        }, 4000); // Mantener visible durante 4 segundos
     }
 
     // Ensure that when a new track is played, the volume is set according to the currentVolume
