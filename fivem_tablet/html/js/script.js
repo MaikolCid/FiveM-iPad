@@ -114,8 +114,32 @@ document.addEventListener("DOMContentLoaded", function() {
         location.reload();
     });
 
-    const tracks = document.querySelectorAll('.track');
+    const volumeDown = document.getElementById('volume-down');
+    const volumeUp = document.getElementById('volume-up');
+    let currentVolume = 50; // Initial volume level
 
+    volumeDown.addEventListener('click', function() {
+        if (currentVolume > 0) {
+            currentVolume -= 10;
+            setVolume(currentVolume);
+        }
+    });
+
+    volumeUp.addEventListener('click', function() {
+        if (currentVolume < 100) {
+            currentVolume += 10;
+            setVolume(currentVolume);
+        }
+    });
+
+    function setVolume(value) {
+        if (currentAudio) {
+            currentAudio.volume = value / 100;
+        }
+    }
+
+    // Ensure that when a new track is played, the volume is set according to the currentVolume
+    const tracks = document.querySelectorAll('.track');
     tracks.forEach(track => {
         track.addEventListener('click', function() {
             const audioSrc = this.getAttribute('data-audio');
@@ -129,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             currentAudio = new Audio(audioSrc);
+            currentAudio.volume = currentVolume / 100; // Set volume based on currentVolume
             currentAudio.play();
 
             currentTrackImg.src = trackImg;
@@ -156,4 +181,5 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!currentAudio || currentAudio.paused) {
         musicAppIcon.classList.remove('hidden');
     }
+
 });
