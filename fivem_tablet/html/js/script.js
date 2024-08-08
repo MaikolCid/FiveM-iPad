@@ -154,39 +154,12 @@ document.addEventListener("DOMContentLoaded", function() {
         location.reload();
     });
 
-    const volumeDown = document.getElementById('volume-down');
-    const volumeUp = document.getElementById('volume-up');
+    const volumeDownButton = document.getElementById('volume-down');
+    const volumeUpButton = document.getElementById('volume-up');
     const volumeDisplay = document.getElementById('volume-display');
     const volumeLevel = document.getElementById('volume-level');
     let currentVolume = 50; // Initial volume level
-    
-
-    volumeDown.addEventListener('click', function() {
-        if (currentVolume > 0) {
-            currentVolume -= 10;
-            setVolume(currentVolume);
-            showVolumeDisplay();
-        } else {
-            showVolumeDisplay(); // Mostrar el display incluso si no cambia el volumen
-        }
-    });
-
-    volumeUp.addEventListener('click', function() {
-        if (currentVolume < 100) {
-            currentVolume += 10;
-            setVolume(currentVolume);
-            showVolumeDisplay();
-        } else {
-            showVolumeDisplay(); // Mostrar el display incluso si no cambia el volumen
-        }
-    });
-
-    function setVolume(value) {
-        if (currentAudio) {
-            currentAudio.volume = value / 100;
-        }
-        volumeLevel.style.height = value + '%';
-    }
+    let volumeTimeout;
 
     function showVolumeDisplay() {
         volumeDisplay.classList.add('show');
@@ -204,7 +177,34 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500); // Duration of fade-out animation in CSS
         }, 1500); // Hide after 1.5 seconds
     }
-    
+
+    function updateVolume(increase) {
+        if (increase) {
+            currentVolume = Math.min(currentVolume + 10, 100);
+        } else {
+            currentVolume = Math.max(currentVolume - 10, 0);
+        }
+        volumeLevel.style.height = `${currentVolume}%`;
+        if (currentAudio) {
+            currentAudio.volume = currentVolume / 100; // Update the volume of the current audio
+        }
+        showVolumeDisplay();
+        hideVolumeDisplay();
+    }
+
+    volumeUpButton.addEventListener('mousedown', () => {
+        updateVolume(true);
+    });
+
+    volumeDownButton.addEventListener('mousedown', () => {
+        updateVolume(false);
+    });
+
+    volumeUpButton.addEventListener('mouseup', hideVolumeDisplay);
+    volumeDownButton.addEventListener('mouseup', hideVolumeDisplay);
+
+    volumeUpButton.addEventListener('mouseleave', hideVolumeDisplay);
+    volumeDownButton.addEventListener('mouseleave', hideVolumeDisplay);
 
     // Ensure that when a new track is played, the volume is set according to the currentVolume
     const tracks = document.querySelectorAll('.track');
@@ -246,8 +246,13 @@ document.addEventListener("DOMContentLoaded", function() {
     currentTrackInfo.addEventListener('click', togglePlayPause);
 
     // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
-    if (!currentAudio || currentAudio.paused) {
-        musicAppIcon.classList.remove('hidden');
+    function checkMusicIcon() {
+        if (!currentAudio || currentAudio.paused) {
+            musicAppIcon.classList.remove('hidden');
+        } else {
+            musicAppIcon.classList.add('hidden');
+        }
     }
 
+    setInterval(checkMusicIcon, 1000); // Check every second
 });
