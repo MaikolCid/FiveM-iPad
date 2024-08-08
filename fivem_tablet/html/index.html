@@ -5,21 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FiveM Tablet</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
     <div class="tablet">
-        <div class="screen">
-            <div class="app" id="app1">
-                <img src="images/app-icon1.png" alt="App Icon">
-                <span>App 1</span>
+        <div class="screen-container">
+            <div class="screen home-screen" id="screen">
+                <div class="left-column">
+                    <div id="datetime">
+                        <span id="time"></span>
+                        <span id="date"></span>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="app" id="app1">
+                        <img src="images/app-icon1.png" alt="App Icon">
+                        <span>App 1</span>
+                    </div>
+                    <div class="app" id="app2">
+                        <img src="images/app-icon1.png" alt="App Icon">
+                        <span>App 2</span>
+                    </div>
+                    <!-- Add more apps as needed -->
+                </div>
             </div>
-            <div class="app" id="app2">
-                <img src="images/app-icon1.png" alt="App Icon">
-                <span>App 2</span>
-            </div>
-            <!-- Add more apps as needed -->
         </div>
+        <div class="nav-bar" id="nav-bar"></div>
     </div>
-    <script src="scripts.js"></script>
+    <script src="/fivem_tablet/html/js/script.js"></script>
 </body>
 </html>
