@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.log('Error loading admin.html:', error));
     }
 
-
     function loadAjustesApp() {
         fetch('/fivem_tablet/Aplicaciones/ajustes.html')
             .then(response => response.text())
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.log('Error loading ajustes.html:', error));
     }
-    
 
     function loadCalcApp() {
         fetch('/fivem_tablet/Aplicaciones/calculator.html')
@@ -289,13 +287,13 @@ document.addEventListener("DOMContentLoaded", function() {
     currentTrackInfo.addEventListener('click', togglePlayPause);
 
     // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
-    function checkMusicIcon() {
-        if (!currentAudio || currentAudio.paused) {
-            musicAppIcon.classList.remove('hidden');
-        } else {
-            musicAppIcon.classList.add('hidden');
-        }
-    }
+    // function checkMusicIcon() {
+    //     if (!currentAudio || currentAudio.paused) {
+    //         musicAppIcon.classList.remove('hidden');
+    //     } else {
+    //         musicAppIcon.classList.add('hidden');
+    //     }
+    // }
 
-    setInterval(checkMusicIcon, 1000); // Check every second
+    // setInterval(checkMusicIcon, 1000); // Check every second
 });

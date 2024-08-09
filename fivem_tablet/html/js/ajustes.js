@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+function initializeAjustes() {
     const wallpaperMenuItem = document.getElementById("wallpaper-menu-item");
     const wallpaperContent = document.getElementById("wallpaper-content");
     const screen = document.querySelector('.screen');
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         '9.jpg'
     ];
 
-        lpapers.forEach(wallpaper => {
+    wallpapers.forEach(wallpaper => {
         const imgElement = document.createElement('img');
         imgElement.src = `/fivem_tablet/html/images/fondos/${wallpaper}`;
         imgElement.alt = `Wallpaper ${wallpaper}`;
@@ -33,4 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
         wallpaperMenuItem.classList.add('selected');
         wallpaperContent.style.display = "block";
     });
-});
+}
+
+// Exporta la función para que pueda ser llamada desde script.js
+window.initializeAjustes = initializeAjustes;
