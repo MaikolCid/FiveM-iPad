@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&family=Quicksand:wght@300..700&display=swap');
 
-
 body, html {
     margin: 0;
-    height: 100%;
-    font-family: 'Poppins';
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #f0f0f5;
+    color: #000;
 }
 
 .calculator {
     position: relative;
-    width: 900px; 
+    width: 900px;
     height: 500px; 
     left: 10%;
     top: 10%;
@@ -23,6 +24,7 @@ body, html {
     justify-content: space-between;
     padding: 50px; 
     box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .display {
@@ -35,10 +37,34 @@ body, html {
     align-items: center;
     padding: 15px;
     border-radius: 14px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    min-height:50px;  
+    min-height: 50px;  
+    overflow-x: auto; /* Scroll if content overflows */
+}
+
+.display::-webkit-scrollbar {
+    height: 8px; /* Height for the horizontal scrollbar */
+}
+
+.display::-webkit-scrollbar-track {
+    background: #1c1c1c; /* Track color matching the display background */
+    border-radius: 10px;
+}
+
+.display::-webkit-scrollbar-thumb {
+    background-color: #505050; /* Thumb color slightly lighter */
+    border-radius: 10px;
+    border: 2px solid #1c1c1c; /* Space between the thumb and the track */
+}
+
+.display::-webkit-scrollbar-thumb:hover {
+    background-color: #606060; /* Lighter on hover */
+}
+
+.display::-webkit-scrollbar-thumb:active {
+    background-color: #707070; /* Even lighter on active */
 }
 
 .buttons {
@@ -48,7 +74,7 @@ body, html {
     gap: 15px; 
 }
 
-.button {
+.button, .button-operator {
     background-color: #505050; 
     border: none;
     outline: none;
@@ -58,13 +84,19 @@ body, html {
     align-items: center;
     cursor: pointer;
     border-radius: 6px; 
-    transition: background-color 0.2s, transform 0.1s;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
     color: white; 
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 10px; 
 }
 
-.button:active {
+.button:hover, .button-operator:hover {
+    background-color: #606060;
+    transform: scale(1.02); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button:active, .button-operator:active {
     background-color: #a5a5a5; 
     transform: scale(0.95); 
 }
@@ -72,18 +104,7 @@ body, html {
 .button-operator {
     background-color: #ff9500; 
     color: #ffffff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-    transition: background-color 0.2s, transform 0.1s;
-    font-size: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    padding: 10px; 
-    border-radius: 6px;
-    border: none;
 }
-
 .button-operator:hover {
     background-color: #ff9500; 
     transform: scale(1.02);
@@ -100,16 +121,15 @@ body, html {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.ac:hover, .percentage:hover {
+    background-color: #e0e0e0;
+}
+
 .ac:active, .percentage:active {
     background-color: #a5a5a5; 
 }
 
-.button:hover {
-    background-color: #606060;
-    transform: scale(1.02); 
-}
-
 .screen.calc-mode {
-    background-color: #000000e3; 
-    background-image: none; 
+    background-color: #333333; 
+    background-image: linear-gradient(45deg, black, transparent); 
 }

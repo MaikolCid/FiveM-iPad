@@ -167,6 +167,36 @@ body, html {
         margin-right: 10px;
     }
 }
+/* Estilos personalizados para la barra de desplazamiento */
+.content::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+.content::-webkit-scrollbar-track {
+    background: #f0f0f5; /* Color de fondo del track de la scrollbar */
+    border-radius: 10px; /* Bordes redondeados para el track */
+}
+
+.content::-webkit-scrollbar-thumb {
+    background-color: #b3b3b3; /* Color del pulgar de la scrollbar */
+    border-radius: 10px; /* Bordes redondeados para el pulgar */
+    border: 3px solid #f0f0f5; /* Espacio entre el pulgar y el track */
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0; /* Color del pulgar al pasar el mouse */
+}
+
+.content::-webkit-scrollbar-thumb:active {
+    background-color: #888888; /* Color del pulgar al hacer clic */
+}
+
+/* Para otros navegadores */
+.content {
+    scrollbar-width: thin; /* Ancho fino en Firefox */
+    scrollbar-color: #b3b3b3 #f0f0f5; /* Colores de pulgar y track en Firefox */
+}
+
 
 .screen.ajustes-mode {
     background-color: #ffffffe3; 

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentAudio = null;
 
     function loadAdminApp() {
-        fetch('/fivem_tablet/Aplicaciones/admin.html')
+        fetch('/fivem_tablet/html/aplicaciones/admin.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function loadAjustesApp() {
-        fetch('/fivem_tablet/Aplicaciones/ajustes.html')
+        fetch('/fivem_tablet/html/aplicaciones/ajustes.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function loadCalcApp() {
-        fetch('/fivem_tablet/Aplicaciones/calculator.html')
+        fetch('/fivem_tablet/html/aplicaciones/calculator.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
     currentTrackImg.addEventListener('click', togglePlayPause);
     currentTrackInfo.addEventListener('click', togglePlayPause);
 
-    // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
+    // // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
     // function checkMusicIcon() {
     //     if (!currentAudio || currentAudio.paused) {
     //         musicAppIcon.classList.remove('hidden');

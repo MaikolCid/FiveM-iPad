@@ -1,6 +1,6 @@
 function initializeCalculator() {
     const display = document.getElementById('display-value');
-    const buttons = document.querySelectorAll('.button');
+    const buttons = document.querySelectorAll('.button, .button-operator'); // Selecciona ambos tipos de botones
     let currentValue = '0';
     let previousValue = null;
     let operator = null;
@@ -9,7 +9,6 @@ function initializeCalculator() {
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             const value = this.getAttribute('data-value');
-
             if (value === 'C') {
                 currentValue = '0';
                 previousValue = null;
