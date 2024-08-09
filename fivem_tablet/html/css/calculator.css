@@ -69,14 +69,24 @@ body, html {
     transform: scale(0.95); 
 }
 
-.operator {
+.button-operator {
     background-color: #ff9500; 
     color: #ffffff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.2s, transform 0.1s;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px; 
+    border-radius: 6px;
+    border: none;
 }
 
-.operator:active {
-    background-color: #e08b00; 
+.button-operator:hover {
+    background-color: #ff9500; 
+    transform: scale(1.02);
 }
 
 .zero {

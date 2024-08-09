@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const appadm = document.getElementById("appadm");
     const apprule = document.getElementById("apprule");
     const appcalc = document.getElementById("appcalc");
+    const appajustes = document.getElementById("ajustes");
     const dockAppadm = document.getElementById("dock-appadm");
     const dockApprule = document.getElementById("dock-apprule");
     const dockAppcalc = document.getElementById("dock-appcalc");
+    const dockAppajustes = document.getElementById("dock-ajustes");
     const screen = document.getElementById("screen");
     const navBar = document.getElementById("nav-bar");
     const dock = document.querySelector(".dock");
@@ -26,6 +28,39 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.log('Error loading admin.html:', error));
     }
+
+
+    function loadAjustesApp() {
+        fetch('/fivem_tablet/Aplicaciones/ajustes.html')
+            .then(response => response.text())
+            .then(data => {
+                screen.innerHTML = data;
+                screen.classList.remove('home-screen');
+                screen.classList.add('ajustes-mode');
+                dock.style.display = "none";
+    
+                // Eliminar el script de ajustes si ya existe
+                const existingScript = document.getElementById('ajustes-script');
+                if (existingScript) {
+                    document.body.removeChild(existingScript);
+                }
+    
+                // Crear y cargar el script de ajustes
+                const ajustesScript = document.createElement('script');
+                ajustesScript.src = '/fivem_tablet/html/js/ajustes.js';
+                ajustesScript.id = 'ajustes-script';
+                document.body.appendChild(ajustesScript);
+    
+                // Esperar a que el script de ajustes se cargue
+                ajustesScript.onload = function() {
+                    if (typeof initializeAjustes === 'function') {
+                        initializeAjustes();
+                    }
+                };
+            })
+            .catch(error => console.log('Error loading ajustes.html:', error));
+    }
+    
 
     function loadCalcApp() {
         fetch('/fivem_tablet/Aplicaciones/calculator.html')
@@ -130,6 +165,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (dockAppcalc) {
         dockAppcalc.addEventListener("click", loadCalcApp);
+    }
+
+    if (appajustes) {
+        appajustes.addEventListener("click", loadAjustesApp);
+    }
+
+    if (dockAppajustes) {
+        dockAppajustes.addEventListener("click", loadAjustesApp);
     }
 
     function updateDateTime() {

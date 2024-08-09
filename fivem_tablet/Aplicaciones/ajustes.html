@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes</title>
+    <link rel="stylesheet" href="/fivem_tablet/html/css/ajustes.css">
+</head>
+<body>
+    <div class="settings-container">
+        <div class="sidebar">
+            <div class="profile-section">
+                <img src="/fivem_tablet/html/images/test-img/profile-img.jpg" alt="Foto de Perfil" class="profile-pic">
+                <div class="profile-info">
+                    <span class="profile-name">Lucas Macia</span>
+                    <span class="profile-details">Apple ID, iCloud</span>
+                </div>
+            </div>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-plane"></i></span>
+                    <span class="menu-text">Modo Avión</span>
+                    <input type="checkbox" class="toggle-switch">
+                </div>
+                <div class="menu-item">
+                    <span class="menu-icon"><i class="fas fa-wifi"></i></span>
+                    <span class="menu-text">Wi-Fi</span>
+                    <span class="menu-detail">Barcelona centro</span>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-icon"><i class="fa-brands fa-bluetooth-b"></i></span>
+                    <span class="menu-text">Bluetooth</span>
+                    <span class="menu-detail">Activado</span>
+                </div>
+                <div class="menu-item" id="wallpaper-menu-item">
+                    <span class="menu-icon"><i class="fas fa-image"></i></span>
+                    <span class="menu-text">Fondo de Pantalla</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección para la selección del fondo de pantalla -->
+        <div class="content" id="wallpaper-content" style="display:none;">
+            <h2>Selecciona un Fondo de Pantalla</h2>
+            <div class="wallpapers" id="wallpaper-grid">
+                <!-- Las imágenes se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Para los iconos -->
+    <script src="/fivem_tablet/html/js/ajustes.js"></script> <!-- Archivo de script para la funcionalidad -->
+</body>
+</html>
