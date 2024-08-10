@@ -10,13 +10,49 @@ document.addEventListener("DOMContentLoaded", function() {
     const screen = document.getElementById("screen");
     const navBar = document.getElementById("nav-bar");
     const dock = document.querySelector(".dock");
-    const currentTrackImg = document.getElementById('current-track-img');
-    const currentTrackTitle = document.getElementById('current-track-title');
-    const currentTrackArtist = document.getElementById('current-track-artist');
-    const musicAppIcon = document.getElementById('music-app-icon');
-    const currentTrackInfo = document.querySelector('.current-track-info');
+    let currentTrackImg = document.getElementById('current-track-img');
+    let currentTrackTitle = document.getElementById('current-track-title');
+    let currentTrackArtist = document.getElementById('current-track-artist');
+    let musicAppIcon = document.getElementById('music-app-icon');
     let currentAudio = null;
+    let currentTrackSrc = ''; // Almacenar la fuente de la pista actual
+    let currentTrackInfo = {
+        imgSrc: '',
+        title: 'Música',
+        artist: ''
+    };
 
+    function initializeMusicWidget() {
+        const tracks = document.querySelectorAll('.track');
+        tracks.forEach(track => {
+            track.addEventListener('click', function() {
+                const audioSrc = this.getAttribute('data-audio');
+                const trackImg = this.getAttribute('data-img');
+                const trackTitle = this.getAttribute('data-title');
+                const trackArtist = this.getAttribute('data-artist');
+
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+
+                currentAudio = new Audio(audioSrc);
+                currentAudio.volume = currentVolume / 100;
+                currentAudio.play();
+
+                // Actualizar el estado de la pista actual
+                currentTrackSrc = audioSrc;
+                currentTrackInfo = {
+                    imgSrc: trackImg,
+                    title: trackTitle,
+                    artist: trackArtist
+                };
+                updateWidget(currentTrackInfo.imgSrc, currentTrackInfo.title, currentTrackInfo.artist);
+            });
+        });
+    }
+
+    
     function loadAdminApp() {
         fetch('/fivem_tablet/html/aplicaciones/admin.html')
             .then(response => response.text())
@@ -191,9 +227,93 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
+    function updateWidget(imgSrc, title, artist) {
+        currentTrackImg.src = imgSrc;
+        currentTrackImg.classList.remove('hidden');
+        currentTrackTitle.textContent = title;
+        currentTrackArtist.textContent = artist;
+        musicAppIcon.classList.add('hidden');
+    }
+
     navBar.addEventListener("click", function() {
-        location.reload();
+        // Restaurar la clase de la pantalla a home-screen
+        screen.classList.add('home-screen');
+        screen.classList.remove('admin-mode', 'ajustes-mode', 'calc-mode', 'rule-mode');
+
+        // Volver a mostrar el dock
+        dock.style.display = "flex";
+
+        // Volver a cargar la interfaz de la pantalla de inicio sin reiniciar los elementos de la música
+        screen.innerHTML = `
+            <div class="left-column">
+                <div id="datetime">
+                    <span id="time"></span>
+                    <span id="date"></span>
+                </div>
+
+                <!-- Music Widget con reproducción integrada -->
+                <div class="music-widget">
+                    <div class="current-track">
+                        <img id="music-app-icon" src="/fivem_tablet/html/widget-musica/icon/apple-music-logo.png" alt="Apple Music Icon">
+                        <div class="current-track-info">
+                            <img id="current-track-img" class="hidden" src="" alt="Current Track">
+                            <div>
+                                <span id="current-track-title">Música</span>
+                                <span id="current-track-artist"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="track-list">
+                        <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/alocate-remake.mp3" data-img="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" data-title="Alocate Remake" data-artist="Mora">
+                            <img src="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" alt="Alocate Remake - Mora">
+                            <span>Alocate Remake</span>
+                        </div>
+                        <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/clima-deiv.mp3" data-img="/fivem_tablet/html/widget-musica/img/clima.jpeg" data-title="Clima" data-artist="Deiv">
+                            <img src="/fivem_tablet/html/widget-musica/img/clima.jpeg" alt="Clima - Deiv">
+                            <span>Clima</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="app" id="appadm">
+                    <img src="images/apps-imgs/app-admin.png" alt="App Icon">
+                    <span>Administración</span>
+                </div>
+                <div class="app" id="apprule">
+                    <img src="images/apps-imgs/app-rule.png" alt="App Icon">
+                    <span>Normativas</span>
+                </div>
+                <div class="app" id="appcalc">
+                    <img src="images/apps-imgs/app-calc.png" alt="App Icon">
+                    <span>Calculadora</span>
+                </div>
+                <div class="app" id="ajustes">
+                    <img src="images/apps-imgs/settings.png" alt="App Icon">
+                    <span>Ajustes</span>
+                </div>
+            </div>
+        `;
+
+        // Obtener las referencias actualizadas de los elementos
+        currentTrackImg = document.getElementById('current-track-img');
+        currentTrackTitle = document.getElementById('current-track-title');
+        currentTrackArtist = document.getElementById('current-track-artist');
+        musicAppIcon = document.getElementById('music-app-icon');
+
+        // Restaurar la información de la pista actual en el widget si existe
+        if (currentAudio && !currentAudio.paused) {
+            updateWidget(currentTrackInfo.imgSrc, currentTrackInfo.title, currentTrackInfo.artist);
+        } else {
+            currentTrackImg.classList.add('hidden');
+            musicAppIcon.classList.remove('hidden');
+        }
+
+        initializeMusicWidget(); // Re-inicializar el widget de música para asegurarse de que sigue funcionando.
     });
+
+
 
     const volumeDownButton = document.getElementById('volume-down');
     const volumeUpButton = document.getElementById('volume-up');
@@ -247,31 +367,8 @@ document.addEventListener("DOMContentLoaded", function() {
     volumeUpButton.addEventListener('mouseleave', hideVolumeDisplay);
     volumeDownButton.addEventListener('mouseleave', hideVolumeDisplay);
 
-    // Ensure that when a new track is played, the volume is set according to the currentVolume
-    const tracks = document.querySelectorAll('.track');
-    tracks.forEach(track => {
-        track.addEventListener('click', function() {
-            const audioSrc = this.getAttribute('data-audio');
-            const trackImg = this.getAttribute('data-img');
-            const trackTitle = this.getAttribute('data-title');
-            const trackArtist = this.getAttribute('data-artist');
-
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-
-            currentAudio = new Audio(audioSrc);
-            currentAudio.volume = currentVolume / 100; // Set volume based on currentVolume
-            currentAudio.play();
-
-            currentTrackImg.src = trackImg;
-            currentTrackImg.classList.remove('hidden');
-            currentTrackTitle.textContent = trackTitle;
-            currentTrackArtist.textContent = trackArtist;
-            musicAppIcon.classList.add('hidden');
-        });
-    });
+    // Asegurar que cuando se reproduzca una nueva pista, el volumen se ajuste según el volumen actual
+    initializeMusicWidget();
 
     function togglePlayPause() {
         if (currentAudio) {
@@ -284,16 +381,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     currentTrackImg.addEventListener('click', togglePlayPause);
-    currentTrackInfo.addEventListener('click', togglePlayPause);
-
-    // // Mostrar el icono de Apple Music cuando no se esté reproduciendo ninguna canción
-    // function checkMusicIcon() {
-    //     if (!currentAudio || currentAudio.paused) {
-    //         musicAppIcon.classList.remove('hidden');
-    //     } else {
-    //         musicAppIcon.classList.add('hidden');
-    //     }
-    // }
-
-    // setInterval(checkMusicIcon, 1000); // Check every second
+    currentTrackTitle.addEventListener('click', togglePlayPause);
+    currentTrackArtist.addEventListener('click', togglePlayPause);
 });
