@@ -1,48 +1,43 @@
 document.addEventListener("DOMContentLoaded", function() {
     const screen = document.getElementById("screen");
-    const dock = document.querySelector(".dock"); // Asegúrate de definir dock aquí
 
     function loadPDF(url) {
-        const pdfContainer = document.createElement('div');
-        pdfContainer.classList.add('pdf-container');
-
         screen.innerHTML = ''; 
-        screen.appendChild(pdfContainer);
 
         const loadingTask = pdfjsLib.getDocument(url);
         loadingTask.promise.then(pdf => {
             console.log('PDF loaded');
 
-            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-                pdf.getPage(pageNumber).then(page => {
-                    console.log('Page loaded');
+            const pdfContainer = document.createElement('div');
+            pdfContainer.classList.add('pdf-container');
+            screen.appendChild(pdfContainer);
 
-                    const scale = 1.5;
-                    const viewport = page.getViewport({ scale: scale });
+            const renderPage = (page) => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
 
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    const renderTask = page.render(renderContext);
-                    renderTask.promise.then(() => {
-                        console.log('Page rendered');
-                    });
-                    const pageWrapper = document.createElement('div');
-                    pageWrapper.classList.add('pdf-page'); 
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                const renderTask = page.render(renderContext);
+                renderTask.promise.then(() => console.log('Page rendered'));
 
-                    pageWrapper.appendChild(canvas); 
-                    pdfContainer.appendChild(pageWrapper); 
-                });
+                const pageWrapper = document.createElement('div');
+                pageWrapper.classList.add('pdf-page');
+                pageWrapper.appendChild(canvas);
+                pdfContainer.appendChild(pageWrapper);
+            };
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                pdf.getPage(i).then(renderPage);
             }
-        }, function (reason) {
-            console.error(reason);
-        });
+        }).catch(reason => console.error(reason));
     }
 
     function updateDateTime() {
@@ -53,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const timeElement = document.getElementById('time');
         const dateElement = document.getElementById('date');
-        
+
         if (timeElement && dateElement) {
             timeElement.textContent = time;
             dateElement.textContent = date.charAt(0).toUpperCase() + date.slice(1);

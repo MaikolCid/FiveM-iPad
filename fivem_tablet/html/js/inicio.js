@@ -13,7 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
         artist: ''
     };
     let currentVolume = 50; // Initial volume level
+    let volumeTimeout;
 
+    // Función para inicializar el widget de música
     function initializeMusicWidget() {
         const tracks = document.querySelectorAll('.track');
         tracks.forEach(track => {
@@ -43,12 +45,79 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Función para actualizar el widget de música
     function updateWidget(imgSrc, title, artist) {
         currentTrackImg.src = imgSrc;
         currentTrackImg.classList.remove('hidden');
         currentTrackTitle.textContent = title;
         currentTrackArtist.textContent = artist;
         musicAppIcon.classList.add('hidden');
+    }
+
+    // Funciones para mostrar y ocultar el control deslizante de volumen
+    function showVolumeDisplay() {
+        const volumeDisplay = document.getElementById('volume-display');
+        volumeDisplay.classList.add('show');
+        volumeDisplay.classList.remove('fade-out');
+        clearTimeout(volumeTimeout);
+    }
+
+    function hideVolumeDisplay() {
+        const volumeDisplay = document.getElementById('volume-display');
+        clearTimeout(volumeTimeout);
+        volumeTimeout = setTimeout(() => {
+            volumeDisplay.classList.add('fade-out');
+            volumeTimeout = setTimeout(() => {
+                volumeDisplay.classList.remove('show');
+                volumeDisplay.classList.remove('fade-out');
+            }, 500); // Duration of fade-out animation in CSS
+        }, 1500); // Hide after 1.5 seconds
+    }
+
+    function updateVolume(increase) {
+        const volumeLevel = document.getElementById('volume-level');
+        if (increase) {
+            currentVolume = Math.min(currentVolume + 10, 100);
+        } else {
+            currentVolume = Math.max(currentVolume - 10, 0);
+        }
+        volumeLevel.style.height = `${currentVolume}%`;
+        if (currentAudio) {
+            currentAudio.volume = currentVolume / 100;
+        }
+        showVolumeDisplay();
+        hideVolumeDisplay();
+    }
+
+    // Función para inicializar los controles de volumen
+    function initializeVolumeControls() {
+        const volumeDownButton = document.getElementById('volume-down');
+        const volumeUpButton = document.getElementById('volume-up');
+
+        // Remover event listeners existentes antes de reasignar
+        volumeDownButton.removeEventListener('mousedown', handleVolumeDown);
+        volumeUpButton.removeEventListener('mousedown', handleVolumeUp);
+        volumeDownButton.removeEventListener('mouseup', hideVolumeDisplay);
+        volumeUpButton.removeEventListener('mouseup', hideVolumeDisplay);
+        volumeDownButton.removeEventListener('mouseleave', hideVolumeDisplay);
+        volumeUpButton.removeEventListener('mouseleave', hideVolumeDisplay);
+
+        // Reasignar event listeners
+        volumeDownButton.addEventListener('mousedown', handleVolumeDown);
+        volumeUpButton.addEventListener('mousedown', handleVolumeUp);
+        volumeDownButton.addEventListener('mouseup', hideVolumeDisplay);
+        volumeUpButton.addEventListener('mouseup', hideVolumeDisplay);
+        volumeDownButton.addEventListener('mouseleave', hideVolumeDisplay);
+        volumeUpButton.addEventListener('mouseleave', hideVolumeDisplay);
+    }
+
+    // Funciones manejadoras para el control de volumen
+    function handleVolumeDown() {
+        updateVolume(false);
+    }
+
+    function handleVolumeUp() {
+        updateVolume(true);
     }
 
     // Funciones de carga de aplicaciones
@@ -172,18 +241,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function initializeAppButtons() {
-        const appadm = document.getElementById("appadm");
-
+        const appadmin = document.getElementById("appadmin");
         const apprule = document.getElementById("apprule");
         const appcalc = document.getElementById("appcalc");
-        const appajustes = document.getElementById("ajustes");
-        const dockAppadm = document.getElementById("dock-appadm");
+        const appajustes = document.getElementById("appajustes");
+        const dockAppadmin = document.getElementById("dock-appadmin");
         const dockApprule = document.getElementById("dock-apprule");
         const dockAppcalc = document.getElementById("dock-appcalc");
-        const dockAppajustes = document.getElementById("dock-ajustes");
+        const dockAppajustes = document.getElementById("dock-appajustes");
         
-        if (appadm) {
-            appadm.addEventListener("click", loadAdminApp);
+        if (appadmin) {
+            appadmin.addEventListener("click", loadAdminApp);
         }
 
         if (apprule) {
@@ -199,8 +267,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         //DOCK
-        if (dockAppadm) {
-            dockAppadm.addEventListener("click", loadAdminApp);
+        if (dockAppadmin) {
+            dockAppadmin.addEventListener("click", loadAdminApp);
         }
 
         if (dockApprule) {
@@ -255,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             </div>
             <div class="right-column">
-                <div class="app" id="appadm">
+                <div class="app" id="appadmin">
                     <img src="images/apps-imgs/app-admin.png" alt="App Icon">
                     <span>Administración</span>
                 </div>
@@ -267,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <img src="images/apps-imgs/app-calc.png" alt="App Icon">
                     <span>Calculadora</span>
                 </div>
-                <div class="app" id="ajustes">
+                <div class="app" id="appajustes">
                     <img src="images/apps-imgs/settings.png" alt="App Icon">
                     <span>Ajustes</span>
                 </div>
@@ -291,6 +359,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         initializeMusicWidget(); // Re-inicializar el widget de música para asegurarse de que sigue funcionando.
         initializeAppButtons(); // Re-inicializar los botones de las aplicaciones
+        initializeVolumeControls(); // Re-inicializar los controles de volumen
     
         // Reasignar el evento de togglePlayPause a los elementos actualizados
         currentTrackImg.addEventListener('click', togglePlayPause);
@@ -298,9 +367,9 @@ document.addEventListener("DOMContentLoaded", function() {
         currentTrackArtist.addEventListener('click', togglePlayPause);
     });
     
-
     initializeMusicWidget(); // Inicialización inicial del widget de música
     initializeAppButtons(); // Inicialización inicial de los botones de las aplicaciones
+    initializeVolumeControls(); // Inicialización inicial de los controles de volumen
 
     function togglePlayPause() {
         if (currentAudio) {
