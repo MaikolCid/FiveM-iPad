@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     const screen = document.getElementById("screen");
 
+    function loadBackground(background) {
+        screen.style.backgroundImage = `url('${background}')`;
+    }
+
+
     function loadPDF(url) {
         screen.innerHTML = ''; 
 
@@ -57,4 +62,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     setInterval(updateDateTime, 1000);
     updateDateTime();
+
+    window.addEventListener('message', function(event) {
+        const data = event.data;
+        const tablet = document.querySelector('.tablet');
+
+        if (data.action === "showTablet") {
+            tablet.style.display = "block";  // Muestra la tablet
+            // Solicitar el fondo de pantalla guardado
+            fetch(`https://${GetParentResourceName()}/loadBackground`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                }
+            });
+        } else if (data.action === "hideTablet") {
+            tablet.style.display = "none";   // Oculta la tablet
+        } else if (data.action === "setBackground") {
+            loadBackground(data.background); // Establecer el fondo de pantalla
+        }
+    });
 });

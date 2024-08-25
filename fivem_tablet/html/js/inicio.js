@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Funciones de carga de aplicaciones
     function loadAdminApp() {
-        fetch('/fivem_tablet/html/aplicaciones/admin.html')
+        fetch('aplicaciones/admin.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function loadAjustesApp() {
-        fetch('/fivem_tablet/html/aplicaciones/ajustes.html')
+        fetch('aplicaciones/ajustes.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
     
                 const ajustesScript = document.createElement('script');
-                ajustesScript.src = '/fivem_tablet/html/js/ajustes.js';
+                ajustesScript.src = 'js/ajustes.js';
                 ajustesScript.id = 'ajustes-script';
                 document.body.appendChild(ajustesScript);
     
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function loadCalcApp() {
-        fetch('/fivem_tablet/html/aplicaciones/calculator.html')
+        fetch('aplicaciones/calculator.html')
             .then(response => response.text())
             .then(data => {
                 screen.innerHTML = data;
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
 
                 const calculatorScript = document.createElement('script');
-                calculatorScript.src = '/fivem_tablet/html/js/calculator.js';
+                calculatorScript.src = 'js/calculator.js';
                 calculatorScript.id = 'calculator-script';
                 document.body.appendChild(calculatorScript);
                 
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function loadRuleApp() {
         console.log("Normativas clicked");
-        loadPDF('/fivem_tablet/html/normativas/normativa.pdf');
+        loadPDF('normativas/normativa.pdf');
         screen.classList.remove('home-screen');
         screen.classList.add('rule-mode');
         dock.style.display = "none";
@@ -292,7 +292,13 @@ document.addEventListener("DOMContentLoaded", function() {
         // Volver a mostrar el dock
         dock.style.display = "flex";
     
-        // Volver a cargar la interfaz de la pantalla de inicio sin reiniciar los elementos de la música
+        fetch(`https://${GetParentResourceName()}/loadBackground`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            }
+        });
+        
         screen.innerHTML = `
             <div class="left-column">
                 <div id="datetime"></div>
@@ -300,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <!-- Music Widget con reproducción integrada -->
                 <div class="music-widget">
                     <div class="current-track">
-                        <img id="music-app-icon" src="/fivem_tablet/html/widget-musica/icon/apple-music-logo.png" alt="Apple Music Icon">
+                        <img id="music-app-icon" src="widget-musica/icon/apple-music-logo.png" alt="Apple Music Icon">
                         <div class="current-track-info">
                             <img id="current-track-img" class="hidden" src="" alt="Current Track">
                             <div>
@@ -311,12 +317,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
     
                     <div class="track-list">
-                        <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/alocate-remake.mp3" data-img="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" data-title="Alocate Remake" data-artist="Mora">
-                            <img src="/fivem_tablet/html/widget-musica/img/alocate-remake.jpg" alt="Alocate Remake - Mora">
+                        <div class="track" data-audio="widget-musica/songs/alocate-remake.mp3" data-img="widget-musica/img/alocate-remake.jpg" data-title="Alocate Remake" data-artist="Mora">
+                            <img src="widget-musica/img/alocate-remake.jpg" alt="Alocate Remake - Mora">
                             <span>Alocate Remake</span>
                         </div>
-                        <div class="track" data-audio="/fivem_tablet/html/widget-musica/songs/clima-deiv.mp3" data-img="/fivem_tablet/html/widget-musica/img/clima.jpeg" data-title="Clima" data-artist="Deiv">
-                            <img src="/fivem_tablet/html/widget-musica/img/clima.jpeg" alt="Clima - Deiv">
+                        <div class="track" data-audio="widget-musica/songs/clima-deiv.mp3" data-img="widget-musica/img/clima.jpeg" data-title="Clima" data-artist="Deiv">
+                            <img src="widget-musica/img/clima.jpeg" alt="Clima - Deiv">
                             <span>Clima</span>
                         </div>
                     </div>

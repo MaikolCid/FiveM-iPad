@@ -1,3 +1,33 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const screen = document.getElementById("screen");
+
+    function loadBackground(background) {
+        screen.style.backgroundImage = `url('${background}')`;
+    }
+
+    // Escuchar mensajes enviados desde el cliente Lua
+    window.addEventListener('message', function(event) {
+        const data = event.data;
+        const tablet = document.querySelector('.tablet');
+
+        if (data.action === "showTablet") {
+            tablet.style.display = "block";  // Muestra la tablet
+            // Solicitar el fondo de pantalla guardado
+            fetch(`https://${GetParentResourceName()}/loadBackground`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                }
+            });
+        } else if (data.action === "hideTablet") {
+            tablet.style.display = "none";   // Oculta la tablet
+        } else if (data.action === "setBackground") {
+            loadBackground(data.background); // Establecer el fondo de pantalla
+        }
+    });
+});
+
+
 function initializeAjustes() {
     const wallpaperMenuItem = document.getElementById("wallpaper-menu-item");
     const wallpaperContent = document.getElementById("wallpaper-content");
@@ -9,16 +39,33 @@ function initializeAjustes() {
         wallpaperGrid.innerHTML = ''; // Clear the grid before adding new images
         wallpapers.forEach(wallpaper => {
             const imgElement = document.createElement('img');
-            imgElement.src = `/fivem_tablet/html/images/fondos/${wallpaper}`;
+            imgElement.src = `images/fondos/${wallpaper}`;
             imgElement.alt = `Wallpaper ${wallpaper}`;
             imgElement.addEventListener('click', () => {
-                screen.style.backgroundImage = `url('/fivem_tablet/html/images/fondos/${wallpaper}')`;
+                screen.style.backgroundImage = `url('images/fondos/${wallpaper}')`;
+
+                // Enviar la selección de fondo al servidor
+                fetch(`https://${GetParentResourceName()}/saveBackground`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    body: JSON.stringify({
+                        background: `images/fondos/${wallpaper}`
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Background saved successfully.');
+                    } else {
+                        console.error('Failed to save background.');
+                    }
+                });
             });
             wallpaperGrid.appendChild(imgElement);
         });
     }
 
-    // Default fallback wallpapers (1.jpg to 10.jpg)
+    // Default fallback wallpapers (1.jpg to 17.jpg)
     let wallpapers = [];
     for (let i = 1; i <= 17; i++) {
         wallpapers.push(`${i}.jpg`);
@@ -26,23 +73,6 @@ function initializeAjustes() {
 
     // Add default wallpapers to the grid
     addWallpapersToGrid(wallpapers);
-
-    // Listen for the wallpapers list from Lua (only when available)
-    window.addEventListener('message', function(event) {
-        if (event.data.type === 'wallpapersList') {
-            let wallpapers = event.data.wallpapers;
-
-            // If the list is empty, use the default fallback wallpapers
-            if (wallpapers.length === 0) {
-                wallpapers = [];
-                for (let i = 1; i <= 17; i++) {
-                    wallpapers.push(`${i}.jpg`);
-                }
-            }
-
-            addWallpapersToGrid(wallpapers);
-        }
-    });
 
     // Show the wallpaper section when the menu item is clicked
     wallpaperMenuItem.addEventListener("click", function() {

@@ -7,17 +7,17 @@ body {
     align-items: center;
     height: 100vh;
     font-family: 'Poppins';
-    background: none; /* Eliminar la imagen de fondo del cuerpo */
     position: relative;
     background-size: cover;
     background-position: center;
 }
 
 .tablet {
+    display: none;
     width: 1265px;
     height: 850px;
     position: absolute;
-    background-image: url('/fivem_tablet/html/images/tablet.png');
+    background-image: url('./../images/tablet.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -52,12 +52,12 @@ body {
     bottom: 3px;
     z-index: 0;
     border-radius: 1.5%;
-    background-image: url('/fivem_tablet/html/images/fondos/9.jpg');
     background-color: transparent;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 
 .home-screen {
     display: grid;
