@@ -13,7 +13,7 @@ body {
 }
 
 .tablet {
-    display: none;
+    /* display: none; */
     width: 1265px;
     height: 850px;
     position: absolute;
