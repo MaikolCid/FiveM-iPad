@@ -6,10 +6,6 @@ This project is a custom-built tablet UI for FiveM, providing in-game players wi
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
-- [Commands](#commands)
-- [Events](#events)
-- [License](#license)
 
 ## Features
 
