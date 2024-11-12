@@ -51,3 +51,8 @@ Use the following command in-game to open the tablet:
 
 ```plaintext
 /tablet
+```
+### Calculadora y Ajustes
+![image2](https://github.com/user-attachments/assets/1c664f0c-e8e0-462f-9978-431d2c308ae2)
+![image](https://github.com/user-attachments/assets/8059e887-cc72-4664-bfe0-7b024a59fab2)
+
